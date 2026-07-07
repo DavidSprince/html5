@@ -1,0 +1,9 @@
+{% macro adslot(label='Advertisement', extra_class='') %}
+<!--
+  AdSlot placeholder — replace with a real <ins class="adsbygoogle"> unit once
+  your AdSense account is approved. See index.html for the publisher script tag.
+-->
+<div class="w-full flex items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 text-slate-400 text-xs font-medium tracking-wide uppercase py-8 {{ extra_class }}" aria-hidden="true">
+  {{ label }} slot
+</div>
+{% endmacro %}

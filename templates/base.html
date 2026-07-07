@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="{{ root }}assets/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#4f46e5" />
+  <title>{{ full_title }}</title>
+  <meta name="description" content="{{ description }}" />
+  {% if keywords %}<meta name="keywords" content="{{ keywords|join(', ') }}" />{% endif %}
+  <link rel="canonical" href="{{ site_url }}{{ path }}" />
+
+  <meta property="og:type" content="{{ og_type|default('website') }}" />
+  <meta property="og:site_name" content="{{ site_name }}" />
+  <meta property="og:title" content="{{ full_title }}" />
+  <meta property="og:description" content="{{ description }}" />
+  <meta property="og:url" content="{{ site_url }}{{ path }}" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ full_title }}" />
+  <meta name="twitter:description" content="{{ description }}" />
+
+  {% if json_ld %}
+  {% for block in json_ld %}
+  <script type="application/ld+json">{{ block|safe }}</script>
+  {% endfor %}
+  {% endif %}
+
+  <!--
+    GOOGLE ADSENSE SETUP:
+    Once your AdSense account is approved, uncomment the script below and
+    replace ca-pub-XXXXXXXXXXXXXXXX with your real publisher ID.
+    This must be present on every page for AdSense verification.
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  -->
+
+  <link rel="stylesheet" href="{{ root }}assets/css/style.css" />
+</head>
+<body class="min-h-screen flex flex-col bg-slate-50">
+
+  {% include 'partials/header.html' %}
+
+  <main class="flex-1 page-enter">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include 'partials/footer.html' %}
+
+  <script src="{{ root }}assets/js/main.js" defer></script>
+</body>
+</html>

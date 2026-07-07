@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% import 'partials/category_card.html' as cards %}
+{% import 'partials/adslot.html' as ad %}
+
+{% block content %}
+{% set c = get_color(item.color) %}
+{% set article = item.article %}
+{% set best_for = item.bestFor or item.platforms or [] %}
+
+<div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-6">
+  <nav class="flex items-center gap-1.5 text-xs text-slate-500 mb-4 flex-wrap">
+    <a href="{{ root }}index.html" class="hover:text-indigo-600">Home</a>
+    {{ icon('ChevronRight', 'h-3 w-3') }}
+    <a href="{{ root }}bundles.html" class="hover:text-indigo-600">Bundles</a>
+    {{ icon('ChevronRight', 'h-3 w-3') }}
+    <a href="{{ group_href(item.group, root) }}" class="hover:text-indigo-600">{{ item.group }}</a>
+    {{ icon('ChevronRight', 'h-3 w-3') }}
+    <span class="text-slate-700 font-medium truncate max-w-[200px]">{{ item.title }}</span>
+  </nav>
+</div>
+
+<div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pb-20 grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-10 items-start">
+  <article>
+    <header class="mb-6">
+      <span class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold {{ c.chip }} mb-4">
+        {{ icon('Tag', 'h-3 w-3') }} {{ item.group }}
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight">{{ item.title }}</h1>
+      <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-500">
+        <span class="inline-flex items-center gap-1.5">{{ icon('ListChecks', 'h-4 w-4') }} {{ item.count }} {{ item.unit or 'clips' }}</span>
+        <span class="inline-flex items-center gap-1.5">{{ icon('Globe2', 'h-4 w-4') }} {{ item.language }}</span>
+        <span class="inline-flex items-center gap-1.5">{{ icon('Clock', 'h-4 w-4') }} {{ reading_time }} min read</span>
+        <span>Best for: {{ best_for|join(', ') }}</span>
+      </div>
+    </header>
+
+    <div class="relative w-full h-56 sm:h-72 overflow-hidden rounded-2xl bg-gradient-to-br {{ c.grad }} flex items-center justify-center">
+      <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 20% 20%, white 0, transparent 35%), radial-gradient(circle at 80% 70%, white 0, transparent 30%);"></div>
+      <div class="cover-float absolute -right-6 -bottom-6 opacity-20">{{ icon(item.icon, 'h-40 w-40 text-white') }}</div>
+      <span class="relative z-10">{{ icon(item.icon, 'h-20 w-20 text-white drop-shadow-lg') }}</span>
+    </div>
+
+    <!-- Download CTA card -->
+    <div class="mt-8 rounded-2xl border {{ c.border }} {{ c.bg }} p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+      <div>
+        <h2 class="text-lg font-extrabold text-slate-900">Download {{ item.title }}</h2>
+        <p class="text-sm text-slate-600 mt-1">100% free &middot; {{ item.count }} {{ item.unit or 'clips' }} &middot; Hosted online</p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+        {% for l in item.downloadLinks %}
+        <a href="{{ l.uri }}" target="_blank" rel="noopener noreferrer nofollow sponsored"
+           class="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-white {{ c.solid }} shadow-md whitespace-nowrap transition-transform hover:scale-[1.03] active:scale-95">
+          {{ icon('Download', 'h-4 w-4') }}
+          {{ ('Download: ' + l.label) if item.downloadLinks|length > 1 else (item.ctaLabel or 'Free Download') }}
+          {{ icon('ExternalLink', 'h-3.5 w-3.5 opacity-70') }}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="reveal mt-10 prose-content">
+      {{ article.intro|markdown }}
+      {{ article.para2|markdown }}
+    </div>
+
+    {% if item.keywords %}
+    <div class="reveal mt-4 flex flex-wrap gap-2">
+      {% for k in item.keywords %}
+      <span class="rounded-full px-3 py-1 text-xs font-semibold {{ c.chip }}">#{{ k|replace(' ', '-') }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {{ ad.adslot(extra_class='my-10') }}
+
+    <section id="included" class="mt-10 scroll-mt-24">
+      <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('CheckCircle2', 'h-5 w-5 text-indigo-600') }} What's Inside This Bundle</h2>
+      <div class="stagger space-y-3">
+        {% for line in article.whatsIncluded %}
+        <div class="flex gap-3 text-sm text-slate-600">{{ icon('CheckCircle2', 'h-5 w-5 shrink-0 ' + c.text) }}<span>{{ line }}</span></div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section id="why" class="mt-10 scroll-mt-24">
+      <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('Lightbulb', 'h-5 w-5 text-indigo-600') }} Why Creators Use This Pack</h2>
+      <div class="stagger space-y-3">
+        {% for line in article.whyUse %}
+        <div class="flex gap-3 text-sm text-slate-600"><span class="mt-1 h-1.5 w-1.5 rounded-full {{ c.solid.split(' ')[0] }} shrink-0"></span><span>{{ line }}</span></div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section id="howto" class="mt-10 scroll-mt-24">
+      <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('ListChecks', 'h-5 w-5 text-indigo-600') }} How to Download &amp; Use It</h2>
+      <ol class="stagger space-y-4">
+        {% for line in article.howToUse %}
+        <li class="flex gap-4 text-sm text-slate-600">
+          <span class="grid h-6 w-6 shrink-0 place-items-center rounded-full text-xs font-bold text-white {{ c.solid.split(' ')[0] }}">{{ loop.index }}</span>
+          <span class="pt-0.5">{{ line }}</span>
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+
+    <section id="usecases" class="mt-10 scroll-mt-24">
+      <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('Compass', 'h-5 w-5 text-indigo-600') }} Real-World Use Cases</h2>
+      <div class="reveal">{{ article.useCases|markdown }}</div>
+    </section>
+
+    <section id="whoFor" class="mt-10 scroll-mt-24">
+      <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('Users', 'h-5 w-5 text-indigo-600') }} Who This Is Really For</h2>
+      <div class="reveal">{{ article.deepDive|markdown }}</div>
+    </section>
+
+    <section id="tips" class="mt-10 scroll-mt-24">
+      <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('Lightbulb', 'h-5 w-5 text-indigo-600') }} Pro Tips</h2>
+      <div class="stagger grid sm:grid-cols-2 gap-3">
+        {% for tip in article.tips %}
+        <div class="rounded-xl border {{ c.border }} {{ c.bg }} p-4 text-sm text-slate-700">{{ tip }}</div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section id="platform" class="mt-10 scroll-mt-24">
+      <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('Sparkles', 'h-5 w-5 text-indigo-600') }} Getting the Best Results</h2>
+      <div class="reveal">{{ article.platformTips|markdown }}</div>
+    </section>
+
+    <section id="faq" class="mt-10 scroll-mt-24">
+      <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('HelpCircle', 'h-5 w-5 text-indigo-600') }} Frequently Asked Questions</h2>
+      <div class="stagger space-y-4">
+        {% for f in article.faq %}
+        <details class="group rounded-xl border border-slate-200 bg-white p-4 open:shadow-sm transition-shadow">
+          <summary class="cursor-pointer list-none flex items-center justify-between font-semibold text-slate-800 text-sm">
+            {{ f.q }}
+            <span class="text-slate-400 group-open:rotate-90 transition-transform">{{ icon('ChevronRight', 'h-4 w-4') }}</span>
+          </summary>
+          <p class="mt-3 text-sm text-slate-600 leading-relaxed">{{ f.a }}</p>
+        </details>
+        {% endfor %}
+      </div>
+    </section>
+
+    <div class="reveal mt-10 prose-content">{{ article.closer|markdown }}</div>
+
+    <!-- Bottom download repeat -->
+    <div class="reveal mt-10 rounded-2xl border {{ c.border }} {{ c.bg }} p-6 sm:p-8 text-center">
+      <h2 class="text-lg font-extrabold text-slate-900">Ready to grab this bundle?</h2>
+      <p class="text-sm text-slate-600 mt-1 mb-5">{{ article.cta }}</p>
+      <div class="flex flex-wrap justify-center gap-3">
+        {% for l in item.downloadLinks %}
+        <a href="{{ l.uri }}" target="_blank" rel="noopener noreferrer nofollow sponsored"
+           class="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-white {{ c.solid }} shadow-md transition-transform hover:scale-[1.03] active:scale-95">
+          {{ icon('Download', 'h-4 w-4') }}
+          {{ ('Download: ' + l.label) if item.downloadLinks|length > 1 else (item.ctaLabel or 'Free Download') }}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    {{ ad.adslot(extra_class='mt-10') }}
+
+    {% if related %}
+    <section class="mt-16">
+      <h2 class="reveal text-2xl font-extrabold text-slate-900 mb-6">More in {{ item.group }}</h2>
+      <div class="stagger grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {% for r in related %}
+        {{ cards.card(r, root) }}
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+  </article>
+
+  <!-- Sticky sidebar -->
+  <aside class="hidden lg:block sticky top-24 space-y-5">
+    <div class="rounded-2xl border {{ c.border }} {{ c.bg }} p-5">
+      <p class="text-xs font-bold uppercase tracking-wide text-slate-500 mb-2">Quick Download</p>
+      <p class="text-sm text-slate-600 mb-4">{{ item.count }} {{ item.unit or 'clips' }} &middot; 100% free</p>
+      {% for l in item.downloadLinks %}
+      <a href="{{ l.uri }}" target="_blank" rel="noopener noreferrer nofollow sponsored"
+         class="mb-2 last:mb-0 flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-bold text-white {{ c.solid }} shadow-sm transition-transform hover:scale-[1.02]">
+        {{ icon('Download', 'h-4 w-4') }} {{ l.label if item.downloadLinks|length > 1 else (item.ctaLabel or 'Free Download') }}
+      </a>
+      {% endfor %}
+    </div>
+
+    <div class="rounded-2xl border border-slate-200 bg-white p-5">
+      <p class="text-xs font-bold uppercase tracking-wide text-slate-500 mb-3">On This Page</p>
+      <nav class="space-y-2">
+        <a href="#included" class="block text-sm text-slate-600 hover:text-indigo-700 transition-colors">What's Inside</a>
+        <a href="#why" class="block text-sm text-slate-600 hover:text-indigo-700 transition-colors">Why Use It</a>
+        <a href="#howto" class="block text-sm text-slate-600 hover:text-indigo-700 transition-colors">How to Download</a>
+        <a href="#usecases" class="block text-sm text-slate-600 hover:text-indigo-700 transition-colors">Use Cases</a>
+        <a href="#tips" class="block text-sm text-slate-600 hover:text-indigo-700 transition-colors">Pro Tips</a>
+        <a href="#platform" class="block text-sm text-slate-600 hover:text-indigo-700 transition-colors">Platform Tips</a>
+        <a href="#faq" class="block text-sm text-slate-600 hover:text-indigo-700 transition-colors">FAQ</a>
+      </nav>
+    </div>
+
+    <div class="rounded-2xl border border-slate-200 bg-white p-5">
+      <p class="text-xs font-bold uppercase tracking-wide text-slate-500 mb-3">Category</p>
+      <a href="{{ group_href(item.group, root) }}" class="text-sm font-semibold text-indigo-700 hover:text-indigo-800 inline-flex items-center gap-1">
+        Browse all {{ item.group }} {{ icon('ChevronRight', 'h-3.5 w-3.5') }}
+      </a>
+    </div>
+  </aside>
+</div>
+{% endblock %}

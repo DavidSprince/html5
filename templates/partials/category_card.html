@@ -1,0 +1,40 @@
+{% macro card(item, root) %}
+{% set c = get_color(item.color) %}
+<article class="card-hover group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+         data-title="{{ item.title|lower }}" data-group="{{ item.group|lower }}"
+         data-tags="{{ item.tags|join(' ')|lower }}">
+  <a href="{{ root }}bundles/{{ item.slug }}.html" class="block p-3 pb-0 overflow-hidden rounded-2xl">
+    <div class="card-cover-img relative w-full h-40 overflow-hidden rounded-2xl bg-gradient-to-br {{ c.grad }} flex items-center justify-center">
+      <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 20% 20%, white 0, transparent 35%), radial-gradient(circle at 80% 70%, white 0, transparent 30%);"></div>
+      <div class="cover-float absolute -right-6 -bottom-6 opacity-20">
+        {{ icon(item.icon, 'h-28 w-28 text-white') }}
+      </div>
+      <span class="relative z-10">{{ icon(item.icon, 'h-12 w-12 text-white drop-shadow-lg') }}</span>
+    </div>
+  </a>
+
+  <div class="flex flex-1 flex-col p-5">
+    <div class="flex items-center gap-2 mb-2.5">
+      <span class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold {{ c.chip }}">
+        {{ icon('Tag', 'h-3 w-3') }} {{ item.group }}
+      </span>
+      <span class="text-xs font-medium text-slate-400">{{ item.count }} {{ item.unit or 'clips' }}</span>
+    </div>
+
+    <h3 class="text-base font-bold text-slate-900 leading-snug mb-2 line-clamp-2">
+      <a href="{{ root }}bundles/{{ item.slug }}.html" class="hover:text-indigo-700 transition-colors">{{ item.title }}</a>
+    </h3>
+
+    <p class="text-sm text-slate-500 mb-4 line-clamp-2">{{ item.article.intro|replace('**','')|truncate(110) }}</p>
+
+    <div class="mt-auto flex items-center justify-between gap-2 pt-3 border-t border-slate-100">
+      <a href="{{ root }}bundles/{{ item.slug }}.html" class="inline-flex items-center gap-1 text-sm font-semibold text-slate-600 hover:text-indigo-700 transition-colors">
+        Read article {{ icon('ArrowRight', 'h-3.5 w-3.5') }}
+      </a>
+      <a href="{{ root }}bundles/{{ item.slug }}.html" class="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold text-white {{ c.solid }} transition-colors shadow-sm active:scale-95">
+        {{ icon('Download', 'h-3.5 w-3.5') }} Get Free
+      </a>
+    </div>
+  </div>
+</article>
+{% endmacro %}

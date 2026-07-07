@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% import 'partials/category_card.html' as cards %}
+{% import 'partials/adslot.html' as ad %}
+
+{% block content %}
+{% set c = get_color(hub.color) %}
+<!-- Hero -->
+<section class="relative overflow-hidden bg-gradient-to-br {{ c.grad }}">
+  <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, white 0, transparent 35%), radial-gradient(circle at 80% 70%, white 0, transparent 30%);"></div>
+  <div class="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-14 sm:py-20 text-center text-white">
+    <nav class="flex items-center justify-center gap-1.5 text-xs text-white/80 mb-6 flex-wrap">
+      <a href="{{ root }}index.html" class="hover:text-white">Home</a>
+      {{ icon('ChevronRight', 'h-3 w-3') }}
+      <a href="{{ root }}bundles.html" class="hover:text-white">Bundles</a>
+      {{ icon('ChevronRight', 'h-3 w-3') }}
+      <span class="text-white font-medium">{{ hub.group }}</span>
+    </nav>
+    <div class="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-2xl bg-white/15 backdrop-blur">
+      {{ icon(hub.icon, 'h-8 w-8 text-white') }}
+    </div>
+    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight">{{ hub.group }} Bundles</h1>
+    <p class="mt-4 text-white/90 max-w-2xl mx-auto">
+      {{ hub.count }} free, curated {{ hub.group|lower }} bundle{{ 's' if hub.count > 1 else '' }} — every download is
+      free, every article is genuinely written to help you use it.
+    </p>
+    <div class="mt-7 flex flex-wrap items-center justify-center gap-2">
+      {% for k in hub.keywords[:4] %}
+      <span class="rounded-full bg-white/15 backdrop-blur px-3 py-1 text-xs font-semibold text-white">{{ k }}</span>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+  <!-- Bundle grid -->
+  <section class="py-12">
+    <h2 class="reveal flex items-center gap-2 text-2xl font-extrabold text-slate-900 mb-6">
+      {{ icon('Sparkles', 'h-5 w-5 text-indigo-600') }} Every {{ hub.group }} Bundle
+    </h2>
+    <div class="stagger grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {% for item in items %}
+      {{ cards.card(item, root) }}
+      {% endfor %}
+    </div>
+  </section>
+
+  {{ ad.adslot(extra_class='mb-12') }}
+
+  <!-- Long-form article -->
+  <article class="prose-content pb-10">
+    <div class="reveal">{{ hub.content.intro|markdown }}</div>
+
+    <section class="mt-10">
+      <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('Lightbulb', 'h-5 w-5 text-indigo-600') }} Why {{ hub.group }} Content Works</h2>
+      {{ hub.content.whyThisCategory|markdown }}
+    </section>
+
+    <section class="mt-10">
+      <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('ListChecks', 'h-5 w-5 text-indigo-600') }} How to Choose the Right Bundle</h2>
+      {{ hub.content.howToChoose|markdown }}
+    </section>
+
+    <section class="mt-10">
+      <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('Download', 'h-5 w-5 text-indigo-600') }} Getting Started</h2>
+      {{ hub.content.gettingStarted|markdown }}
+    </section>
+
+    <section class="mt-10">
+      <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('Sparkles', 'h-5 w-5 text-indigo-600') }} Content Ideas to Try</h2>
+      {{ hub.content.contentIdeas|markdown }}
+    </section>
+
+    <section class="mt-10">
+      <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('Tag', 'h-5 w-5 text-indigo-600') }} What Makes a Good {{ hub.group }} Post</h2>
+      {{ hub.content.whatMakesGood|markdown }}
+    </section>
+
+    <section class="mt-10">
+      <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('ListChecks', 'h-5 w-5 text-indigo-600') }} Bundle-by-Bundle Roundup</h2>
+      {{ hub.content.bundleRoundup|markdown }}
+    </section>
+
+    <section class="mt-10">
+      <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('Lightbulb', 'h-5 w-5 text-indigo-600') }} Is This Category Right for You?</h2>
+      {{ hub.content.fitCheck|markdown }}
+    </section>
+
+    <div class="reveal mt-8">{{ hub.content.topUp|markdown }}</div>
+    <div class="reveal mt-8">{{ hub.content.closing|markdown }}</div>
+  </article>
+
+  {{ ad.adslot(extra_class='mb-12') }}
+
+  <section class="mt-10">
+    <h2 class="reveal flex items-center gap-2 text-xl font-extrabold text-slate-900 mb-4">{{ icon('HelpCircle', 'h-5 w-5 text-indigo-600') }} Frequently Asked Questions</h2>
+    <div class="stagger space-y-4">
+      {% for f in hub.content.faq %}
+      <details class="group rounded-xl border border-slate-200 bg-white p-4 open:shadow-sm transition-shadow">
+        <summary class="cursor-pointer list-none flex items-center justify-between font-semibold text-slate-800 text-sm">
+          {{ f.q }}
+          <span class="text-slate-400 group-open:rotate-90 transition-transform">{{ icon('ChevronRight', 'h-4 w-4') }}</span>
+        </summary>
+        <p class="mt-3 text-sm text-slate-600 leading-relaxed">{{ f.a }}</p>
+      </details>
+      {% endfor %}
+    </div>
+  </section>
+
+  <div class="reveal my-16 rounded-2xl border {{ c.border }} {{ c.bg }} p-6 sm:p-8 text-center">
+    <h2 class="text-lg font-extrabold text-slate-900">Ready to browse more?</h2>
+    <p class="text-sm text-slate-600 mt-1 mb-5">Explore every free bundle across all categories.</p>
+    <a href="{{ root }}bundles.html" class="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-white {{ c.solid }} shadow-md transition-colors">
+      {{ icon('Download', 'h-4 w-4') }} View All Bundles
+    </a>
+  </div>
+</div>
+{% endblock %}

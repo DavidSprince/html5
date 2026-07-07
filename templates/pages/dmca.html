@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16">
+  <h1 class="text-4xl font-extrabold text-slate-900 mb-2">DMCA Policy</h1>
+  <p class="text-sm text-slate-400 mb-10">Last updated: {{ today }}</p>
+  <div class="prose-content text-slate-600 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-8 [&_h2]:mb-3">
+    <p>ReelsHub Vault respects the intellectual property rights of others and expects users of the Site to do the same. We do not host any files ourselves — all download buttons link to third-party hosted resources (Google Drive, Mega.nz, Google Docs, Notion, etc.).</p>
+
+    <h2>1. Reporting Infringement</h2>
+    <p>If you are a copyright owner, or authorised to act on behalf of one, and believe that a link listed on ReelsHub Vault directs to material that infringes your copyright, please send a notice containing the following information to hello@reelshubvault.com:</p>
+    <ul class="list-disc pl-6 space-y-1">
+      <li>Identification of the copyrighted work claimed to have been infringed.</li>
+      <li>The exact URL(s) on ReelsHub Vault where the allegedly infringing link appears.</li>
+      <li>Your contact information (name, email address, and, if available, phone number).</li>
+      <li>A statement that you have a good-faith belief that the disputed use is not authorised.</li>
+      <li>A statement, under penalty of perjury, that the information in the notice is accurate and that you are the copyright owner or authorised to act on their behalf.</li>
+      <li>Your physical or electronic signature.</li>
+    </ul>
+
+    <h2>2. Our Response</h2>
+    <p>Upon receiving a valid notice, we will promptly remove or disable the specific link in question from our Site listings, typically within 3–5 business days.</p>
+
+    <h2>3. Counter-Notification</h2>
+    <p>If you believe a link was removed in error, you may submit a counter-notice with a detailed explanation to the same email address, and we will review the claim in good faith.</p>
+
+    <h2>4. Note on Third-Party Hosting</h2>
+    <p>Because the underlying files are hosted on third-party services, removing a link from ReelsHub Vault does not remove the file from its original host. Rights holders may also need to file a separate takedown request directly with the hosting provider.</p>
+  </div>
+</div>
+{% endblock %}

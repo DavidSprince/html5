@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% import 'partials/category_card.html' as cards %}
+{% import 'partials/adslot.html' as ad %}
+
+{% block content %}
+<!-- HERO -->
+<section class="relative overflow-hidden bg-gradient-to-b from-indigo-50 via-white to-white">
+  <div class="absolute inset-0 -z-10 opacity-40" style="background-image: radial-gradient(circle at 15% 20%, #a5b4fc 0, transparent 30%), radial-gradient(circle at 85% 15%, #f0abfc 0, transparent 30%);"></div>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-20 sm:pt-24 sm:pb-28">
+    <div class="mx-auto max-w-3xl text-center">
+      <span class="reveal is-visible inline-flex items-center gap-1.5 rounded-full bg-indigo-100 px-4 py-1.5 text-xs font-bold text-indigo-700 mb-6">
+        {{ icon('Sparkles', 'h-3.5 w-3.5') }} {{ total }}+ Free Bundles &middot; Reels, Ebooks, Templates &amp; More
+      </span>
+      <h1 class="reveal is-visible text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
+        Free Reels, Ebooks &amp;
+        <span class="block bg-gradient-to-r from-indigo-600 to-fuchsia-600 bg-clip-text text-transparent">
+          Digital Product Bundles
+        </span>
+      </h1>
+      <p class="reveal is-visible mt-6 text-lg text-slate-600 leading-relaxed">
+        Instantly download curated bundles across motivation, religious, art &amp; craft, anime, fitness,
+        cars, WWE, ebooks, Canva templates, courses and software — every category comes with a full
+        article, usage tips, and a one-click free download button.
+      </p>
+
+      <form action="{{ root }}bundles.html" method="get" class="reveal is-visible mt-8 mx-auto max-w-xl flex items-center gap-2 rounded-full border border-slate-200 bg-white p-1.5 shadow-lg shadow-slate-200/60">
+        <span class="ml-3 text-slate-400 shrink-0">{{ icon('Search', 'h-5 w-5') }}</span>
+        <input name="q" type="search" placeholder="Search 'motivational', 'ebooks', 'templates'..." class="flex-1 bg-transparent outline-none text-sm sm:text-base px-1 py-2" />
+        <button class="shrink-0 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-5 py-2.5 transition-colors active:scale-95">Search</button>
+      </form>
+
+      <div class="reveal is-visible mt-8 flex flex-wrap items-center justify-center gap-3">
+        <a href="{{ root }}bundles.html" class="inline-flex items-center gap-2 rounded-full bg-slate-900 text-white px-6 py-3 text-sm font-bold hover:bg-slate-800 transition-colors shadow-md active:scale-95">
+          {{ icon('Download', 'h-4 w-4') }} Browse All Bundles
+        </a>
+        <a href="{{ root }}about.html" class="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors active:scale-95">
+          How It Works {{ icon('ArrowRight', 'h-4 w-4') }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<section class="border-y border-slate-200 bg-white">
+  <div class="stagger mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+    <div class="flex flex-col items-center gap-2">{{ icon('CheckCircle2', 'h-6 w-6 text-indigo-600') }}<span class="text-xs sm:text-sm font-semibold text-slate-600">100% Free Downloads</span></div>
+    <div class="flex flex-col items-center gap-2">{{ icon('Shield', 'h-6 w-6 text-indigo-600') }}<span class="text-xs sm:text-sm font-semibold text-slate-600">Copyright-Free Content</span></div>
+    <div class="flex flex-col items-center gap-2">{{ icon('Zap', 'h-6 w-6 text-indigo-600') }}<span class="text-xs sm:text-sm font-semibold text-slate-600">Instant Access Links</span></div>
+    <div class="flex flex-col items-center gap-2">{{ icon('ListChecks', 'h-6 w-6 text-indigo-600') }}<span class="text-xs sm:text-sm font-semibold text-slate-600">{{ total }}+ Curated Categories</span></div>
+  </div>
+</section>
+
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  {{ ad.adslot(extra_class='my-10') }}
+</div>
+
+<!-- GROUPS -->
+<section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
+  <div class="reveal text-center max-w-2xl mx-auto mb-10">
+    <h2 class="text-3xl font-extrabold text-slate-900">Explore by Category</h2>
+    <p class="mt-3 text-slate-500">Every group below links to full articles with detailed usage guides, tips and free download buttons.</p>
+  </div>
+  <div class="stagger grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+    {% for g in groups_order %}
+    {% set sample = (all_categories | selectattr('group', 'equalto', g) | first) %}
+    {% set c = get_color(sample.color) %}
+    <a href="{{ group_href(g, root) }}" class="group flex flex-col items-center gap-3 rounded-2xl border border-slate-200 bg-white p-5 text-center hover:shadow-md hover:-translate-y-1 transition-all">
+      <span class="grid h-12 w-12 place-items-center rounded-xl {{ c.bg }} {{ c.text }}">{{ icon(sample.icon, 'h-6 w-6') }}</span>
+      <span class="text-sm font-bold text-slate-800 group-hover:text-indigo-700">{{ g }}</span>
+      <span class="text-xs text-slate-400">{{ group_counts[g] }} bundle{{ 's' if group_counts[g] > 1 else '' }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+  <div class="reveal flex items-end justify-between mb-8">
+    <div>
+      <h2 class="text-3xl font-extrabold text-slate-900">Featured Bundles</h2>
+      <p class="mt-2 text-slate-500">Hand-picked, high-demand packs to get you started.</p>
+    </div>
+    <a href="{{ root }}bundles.html" class="hidden sm:inline-flex items-center gap-1 text-sm font-bold text-indigo-700 hover:text-indigo-800">
+      View all {{ total }} {{ icon('ArrowRight', 'h-4 w-4') }}
+    </a>
+  </div>
+  <div class="stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    {% for item in featured %}
+    {{ cards.card(item, root) }}
+    {% endfor %}
+  </div>
+  <div class="mt-10 text-center sm:hidden">
+    <a href="{{ root }}bundles.html" class="inline-flex items-center gap-1 text-sm font-bold text-indigo-700">View all {{ total }} bundles {{ icon('ArrowRight', 'h-4 w-4') }}</a>
+  </div>
+</section>
+
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  {{ ad.adslot(extra_class='my-4 mb-16') }}
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="bg-slate-900 text-white">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <h2 class="reveal text-3xl font-extrabold text-center mb-12">How It Works</h2>
+    <div class="stagger grid grid-cols-1 sm:grid-cols-3 gap-8">
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 hover:-translate-y-1 transition-transform">
+        <span class="text-4xl font-black text-indigo-400">01</span>
+        <h3 class="mt-3 text-lg font-bold">Pick a Category</h3>
+        <p class="mt-2 text-sm text-slate-300 leading-relaxed">Browse curated bundles across motivation, religious, anime, fitness, ebooks, templates and more.</p>
+      </div>
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 hover:-translate-y-1 transition-transform">
+        <span class="text-4xl font-black text-indigo-400">02</span>
+        <h3 class="mt-3 text-lg font-bold">Read &amp; Download</h3>
+        <p class="mt-2 text-sm text-slate-300 leading-relaxed">Each article explains what's inside — then click the free download button to open the resource link.</p>
+      </div>
+      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 hover:-translate-y-1 transition-transform">
+        <span class="text-4xl font-black text-indigo-400">03</span>
+        <h3 class="mt-3 text-lg font-bold">Use &amp; Publish</h3>
+        <p class="mt-2 text-sm text-slate-300 leading-relaxed">Edit clips in CapCut, customise templates in Canva, or dive into a course — then put it to work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

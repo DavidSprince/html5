@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16">
+  <h1 class="text-4xl font-extrabold text-slate-900 mb-6">About ReelsHub Vault</h1>
+
+  <div class="prose-content text-slate-600">
+    <p>
+      ReelsHub Vault is a free resource hub built for short-form video creators, freelancers, and online
+      entrepreneurs — Instagram Reels editors, YouTube Shorts channels, social media agencies, and anyone
+      looking for a steady supply of ready-to-use digital content without paying premium prices.
+    </p>
+    <p>
+      We started this project after noticing how much time people waste searching scattered Telegram
+      groups and random links for usable material. Instead, we've organised everything into
+      <strong>{{ total }} clearly labelled categories</strong> — from motivational, religious, anime
+      and fitness reels to ebooks, Canva templates, online courses, and software bundles — each with a full
+      write-up explaining what's inside, how to use it, and a single one-click download button.
+    </p>
+    <p>
+      Every bundle listed on this site links directly to a publicly shared Google Drive, Mega.nz, or
+      document link. We do not re-host, sell, or modify the original files — we simply curate, categorise,
+      and describe them so you can find what you need faster.
+    </p>
+  </div>
+
+  <div class="grid sm:grid-cols-3 gap-4 my-10">
+    <div class="rounded-xl border border-slate-200 bg-white p-5">
+      {{ icon('Shield', 'h-6 w-6 text-indigo-600 mb-3') }}
+      <h3 class="font-bold text-slate-900 text-sm">Curated, Not Scraped</h3>
+      <p class="text-xs text-slate-500 mt-1">Every bundle is manually reviewed before being listed.</p>
+    </div>
+    <div class="rounded-xl border border-slate-200 bg-white p-5">
+      {{ icon('Zap', 'h-6 w-6 text-indigo-600 mb-3') }}
+      <h3 class="font-bold text-slate-900 text-sm">Always Free</h3>
+      <p class="text-xs text-slate-500 mt-1">No sign-ups, subscriptions, or hidden paywalls.</p>
+    </div>
+    <div class="rounded-xl border border-slate-200 bg-white p-5">
+      {{ icon('CheckCircle2', 'h-6 w-6 text-indigo-600 mb-3') }}
+      <h3 class="font-bold text-slate-900 text-sm">Creator-First</h3>
+      <p class="text-xs text-slate-500 mt-1">Built by creators, for creators, with real usage guides.</p>
+    </div>
+  </div>
+
+  <div class="prose-content text-slate-600">
+    <h2 class="text-xl font-bold text-slate-900 mt-8 mb-3">Our Content Policy</h2>
+    <p>
+      We aim to only feature content that is described as copyright-free, royalty-free, or freely shareable
+      by its original uploader. That said, content ownership on the open internet can change, and if you are
+      a rights holder who believes any linked material infringes your copyright, please visit our
+      <a href="{{ root }}dmca.html" class="text-indigo-600 font-semibold">DMCA page</a> to request a review or removal.
+    </p>
+    <h2 class="text-xl font-bold text-slate-900 mt-8 mb-3">Questions or Suggestions?</h2>
+    <p>
+      Have a bundle you'd like us to add, or found a broken link? Head over to our
+      <a href="{{ root }}contact.html" class="text-indigo-600 font-semibold">Contact page</a> — we read every message.
+    </p>
+  </div>
+
+  <a href="{{ root }}bundles.html" class="mt-10 inline-flex items-center gap-2 rounded-full bg-indigo-600 px-6 py-3 text-sm font-bold text-white hover:bg-indigo-700 transition-colors">
+    {{ icon('Download', 'h-4 w-4') }} Browse All Bundles
+  </a>
+</div>
+{% endblock %}
