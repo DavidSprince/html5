@@ -1,0 +1,20 @@
+{
+  "name": "reels-hub-html5",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "ReelsHub Vault — static HTML5/CSS/JS build (no framework, no build step required at runtime)",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/input.css -o ./assets/css/style.css --minify",
+    "watch:css": "tailwindcss -i ./src/input.css -o ./assets/css/style.css --watch",
+    "build:html": "python3 scripts/generate.py",
+    "build": "npm run build:css",
+    "regenerate": "npm run build:html && npm run build:css",
+    "serve": "python3 -m http.server 8080"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.5.2",
+    "postcss": "^8.5.16",
+    "tailwindcss": "^3.4.19"
+  }
+}

@@ -1,0 +1,3 @@
+# Replace this line with the exact snippet Google AdSense gives you
+# after your site is approved, e.g.:
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
